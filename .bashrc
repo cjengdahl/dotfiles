@@ -56,7 +56,8 @@ alias recent='cat ~/.bash_history | grep'
 alias burn="cat /dev/null > ~/.bash_history && history -c && exit"
 alias vimrc='vim ~/.vimrc'
 alias bashrc='vim ~/.bash_profile'
-alias loadbash='source ~/.bash_profile'
+alias sbashrc='source ~/.bash_profile'
+alias todo='vim "+Note todo"' # vim-note plugin required
 alias meow='cat'
 
 ########################
