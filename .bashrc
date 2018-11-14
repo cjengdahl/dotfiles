@@ -37,7 +37,7 @@ alias gg='cd ~/git'
 #     SSH Aliases      #
 ########################
 
-# alias hermes='ssh hermes.local'
+source ~/.bash_ssh_aliases
 
 ########################
 #    Utility Aliases   #
@@ -83,9 +83,6 @@ alias dc='cd'
 ########################
 #    Unix Commands     #
 ########################
-
-# Let there be color in grep!
-export GREP_OPTIONS=' — color=auto'
 
 # Set Vim as my default editor
 export EDITOR=vim
