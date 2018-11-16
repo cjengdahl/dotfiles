@@ -17,6 +17,47 @@ function ord(){
 	LC_CTYPE=C printf '%d\n' "'$1"
 }
 
+mcd () {
+    mkdir -p $1
+    cd $1
+}
+
+function extract {
+  if [ -z "$1" ]; then
+    # display usage if no parameters given
+    echo "Usage: extract <path/file_name>.<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz>"
+    echo "       extract <path/file_name_1.ext> [path/file_name_2.ext] [path/file_name_3.ext]"
+    return 1
+  else
+    for n in $@
+    do
+      if [ -f "$n" ] ; then
+          case "${n%,}" in
+            *.tar.bz2|*.tar.gz|*.tar.xz|*.tbz2|*.tgz|*.txz|*.tar)
+                         tar xvf "$n"       ;;
+            *.lzma)      unlzma ./"$n"      ;;
+            *.bz2)       bunzip2 ./"$n"     ;;
+            *.rar)       unrar x -ad ./"$n" ;;
+            *.gz)        gunzip ./"$n"      ;;
+            *.zip)       unzip ./"$n"       ;;
+            *.z)         uncompress ./"$n"  ;;
+            *.7z|*.arj|*.cab|*.chm|*.deb|*.dmg|*.iso|*.lzh|*.msi|*.rpm|*.udf|*.wim|*.xar)
+                         7z x ./"$n"        ;;
+            *.xz)        unxz ./"$n"        ;;
+            *.exe)       cabextract ./"$n"  ;;
+            *)
+                         echo "extract: '$n' - unknown archive method"
+                         return 1
+                         ;;
+          esac
+      else
+          echo "'$n' - file does not exist"
+          return 1
+      fi
+    done
+  fi
+}
+
 ########################
 #  Navigation Aliases  #
 ########################
@@ -47,7 +88,6 @@ source ~/.bash_ssh_aliases
 alias virtualenv2="/Library/Frameworks/Python.framework/Versions/2.7/bin/virtualenv"
 alias virtualenv3="/Library/Frameworks/Python.framework/Versions/3.5/bin/virtualenv"
 
-alias todo="subl ~/Documents/Reference/todo.notes"
 alias mkcd='function mkcd(){ mkdir $1; cd $1; };mkcd'
 
 alias flip="if [ $((RANDOM %2)) -eq 1 ]; then echo HEADS; else echo TAILS; fi"
@@ -59,6 +99,9 @@ alias bashrc='vim ~/.bash_profile'
 alias sbashrc='source ~/.bash_profile'
 alias todo='vim "+Note todo"' # vim-note plugin required
 alias meow='cat'
+alias ll='ls -l'
+alias la='ls -a'
+alias top='htop'
 
 ########################
 #     Git Aliases      #
